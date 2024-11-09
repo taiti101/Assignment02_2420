@@ -1,0 +1,67 @@
+#!/bin/bash
+ 
+   # It makes sure that the script is run as root
+   Root() {
+     if [[$EUID -ne 0 ]]; then
+         echo "Error: This script must be run as root"
+         exit 1
+     fi
+   }
+
+   # This is for the variables that stores user details
+   username=" "
+   shell="/bin/bash" # This is the default shell
+   groups=" "
+
+   #Provides the usage details
+   User_Account() {
+       echo "Usage: $0 -u <username> [-s <shell>] [-g <additional_group>]"
+       echo "  -u  Specify the username for the new user (required)"
+       echo "  -s  Specify the shell for the new user (optional, default: /bin/bash)"
+       echo "  -g  Specify additional groups (optional, coma-seperated, no spaces)" 
+   }
+
+   # Analyses script options
+   while getopts "u:s:g" opt; do
+       case "$opt" in
+           u) username="$OPTARG"  
+	      ;;   # Specifys the account name
+           p) shell="$OPTARG"  
+	      ;;      # Select the user shell 
+           g) groups="$OPTARG"  
+	      ;;     # Specify extra groups
+           *) show_usage
+              exit 1 
+	      ;;
+      esac
+   done
+
+   # Double check if the username is given
+   if [[ -z "$username" ]]; then
+       echo "Error: Username is required."
+       show_help
+   else
+       echo "Username is set to $username."
+       exit 1
+   fi
+
+   # Function to create a user with defined settings
+   user_creation() {
+      echo "Creating user '$username' with shell '$shell' and group '$groups'..."
+
+      # Set up user with selected shell and groups, make sure to check for succesful completion
+      echo "Please enter a password for the new user:"
+      passwd "$username"
+
+      # Copy the standard files to the user's home directory"
+      cp -r /etc/skel/. "/home/$username"
+      chown -R "$username":"$username"
+      echo "Home directory and standard files set up for '$username'."
+   else
+      echo "Error: Failed to create user '$username'."
+      exit 1
+   fi
+}
+
+# verify the root, then continue with user creation
+root
