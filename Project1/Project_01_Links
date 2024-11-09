@@ -1,0 +1,28 @@
+#!/bin/bash
+
+dir_to_check="/home/$user_name"
+
+# It checks if the directory exists or not
+if [ -d "dir_to_check" ]; then
+	echo "Directory '$dir_to_check' already exists."
+else
+# Creating the directory
+   mkdir "$dir_to_check"
+   echo "Directory '$dir_to_check' has been created"
+else 
+   echo "Failed to create directory '$dir_to_check' has been created"
+   exit 1
+fi	
+
+# Target diectory for Assignment 2
+# Created 
+mkdir -p Fo rTheAssignment2/bin
+mkdir -p ForTheAssignment2/.config 
+
+# It creates symbolic links to starting files 
+ln -sf "$(pwd)/2420-as2-starting-files/bin" ForTheAssignment2/bin
+ln -sf "$(pwd)/2420-as2-starting-files/config" ForTheAssignment2/.config
+ln -sf "$(pwd)/2420-as2-starting-files/home/bashrc" ForTheAssignment2/.bashrc
+ln -sf "$(pwd)/2420-as2-starting-files/home/kakrc" ForTheAssignment2/.config/kak/kakrc
+ln -sf "$(pwd)/2420-as2-starting-files/home/tmux.conf" ForTheAssignment2/.config/tmux/tmux.conf
+ 
