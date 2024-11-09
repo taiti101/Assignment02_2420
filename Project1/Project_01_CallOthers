@@ -1,6 +1,6 @@
 #!/bin/bash
-# It runs the Symbolic Links script
+# It sets up the Symbolic Links script
 ./Project_01_Links
 
-# It runs the
+# It sets up the kakoune and tmux script
 ./Project_01.sh
