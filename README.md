@@ -3,9 +3,9 @@ Assignment02_2420
 
 Introductions 
 
+Hello, we will talk about the Projects and their code
 
-
-Project 1
+# Project 1
 
 # Project Overview
 
@@ -109,10 +109,102 @@ ln -sf "$(pwd)/2420-as2-starting-files/home/tmux.conf" ForTheAssignment2/.config
 
 ---
 
-Project 2
+# Project 2
 
+# Project Overview
 
+This project is contains a Bash script that would immediately set up a new user on Linux system. It verifies the root accesse, takes options for user setting, and handles tasks like setting the user shell, adding them to groups, and creating a home directory with default files
 
+## Script Functionality
 
+1. **Root Privilege check**
+
+The script will check if it's being run as root. The script will show an error and exit out if it's not being run as root
+
+2. **User Options** 
+
+- Username or -u is the name of the account for the new user
+- Shell or -s specifies the shell for the new user, if it does not specify, it will show up as /bin/bash
+- Additional Groups or -g allows the addition of the user to groups 
+
+3. **Usage Details**
+
+The script has a function that shows how to use it. If options are incorrect or information is missing, it provides a quick guide on proper usage.
+
+---
+
+```
+Root() {
+  if [[$EUID -ne 0 ]]; then
+      echo "Error: This script must be run as root"
+      exit 1
+  fi
+}
+```
+- The root makes sure that the script is being run as root
+- $EUID stores the ID of the user, if there's no 0, then the user is not root
+
+---
+```
+username=" "
+shell="/bin/bash"
+groups=" "
+```
+- Username is for the user's that enter their new name
+- Shell sets /bin/bash as the standard shell for the new user
+- Groups are places to add users to.
+
+---
+```
+User_Account() {
+    echo "Usage: $0 -u <username> [-s <shell>] [-g <additional_group>]"
+    echo "  -u  Specify the username for the new user (required)"
+    echo "  -s  Specify the shell for the new user (optional, default: /bin/bash)"
+    echo "  -g  Specify additional groups (optional, comma-separated, no spaces)" 
+}
+```
+- The User_Account shows how to use a script
+
+---
+```
+while getopts "u:s:g" opt; do
+    case "$opt" in
+        u) username="$OPTARG" ;;   # Sets the account name
+        s) shell="$OPTARG" ;;      # Sets the user shell
+        g) groups="$OPTARG" ;;     # Sets additional groups
+        *) show_usage; exit 1 ;;   # Shows usage and exits if an invalid option is used
+    esac
+done
+```
+- `getopts` handles the options provided in the command line.
+- -u, -s, and -g options let the user set a username, shell, and groups.
+
+---
+```
+if [[ -z "$username" ]]; then
+    echo "Error: Username is required."
+    show_help
+else
+    echo "Username is set to $username."
+    exit 1
+fi
+```
+- It checks if username was provided, if it hasn't, it shows an error "show_help"
+
+---
+```
+user_creation() {
+   echo "Creating user '$username' with shell '$shell' and group '$groups'..."
+   echo "Please enter a password for the new user:"
+   passwd "$username"
+   cp -r /etc/skel/. "/home/$username"
+   chown -R "$username":"$username" "/home/$username"
+   echo "Home directory and standard files set up for '$username'."
+}
+```
+- The user_creation part creates the user with the settings that are chosen for them (user).
+- It will ask for a password for the new user
+- It will copy the files from /etc/skel to the user’s home directory.
+- Sets the home directory ownership to the new user
 
 
