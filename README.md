@@ -7,17 +7,17 @@ Hello, we will talk about the Projects and their code
 
 # Project 1
 
-# Project Overview
+# Overview of the Project
 
 This project includes a simple Bash script that peforms two main tasks on Arch Linux system, it verifys the root privileges and installs essential packages 
 
 ## Script
 
-1. **Root Privilege Check**
+1. **Verifying the Root**
 
 The script first checks if it has root privileges, which are required to install packages. If it finds that it’s not running as root, it will display a message ("Run as root") and exit right away.
 
-2. **Package Installation**
+2. **Installing the Packages**
 
 Afer the root has confirmed that it has it's root privileges, the script then moves next to install the packages that contains a list of using pacman
 
@@ -111,13 +111,13 @@ ln -sf "$(pwd)/2420-as2-starting-files/home/tmux.conf" ForTheAssignment2/.config
 
 # Project 2
 
-# Project Overview
+# Overview of the Project
 
 This project is contains a Bash script that would immediately set up a new user on Linux system. It verifies the root accesse, takes options for user setting, and handles tasks like setting the user shell, adding them to groups, and creating a home directory with default files
 
-## Script Functionality
+## Functionality of the Script
 
-1. **Root Privilege check**
+1. **Verifying the Root**
 
 The script will check if it's being run as root. The script will show an error and exit out if it's not being run as root
 
@@ -132,6 +132,9 @@ The script will check if it's being run as root. The script will show an error a
 The script has a function that shows how to use it. If options are incorrect or information is missing, it provides a quick guide on proper usage.
 
 ---
+## The code
+
+Here is the code and my explanation, 
 
 ```
 Root() {
